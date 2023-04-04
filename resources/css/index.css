@@ -4,20 +4,26 @@
  
 */
 @font-face {
+  /* Mono */
   font-family: "Inconsolata";
   src: url('../fonts/inconsolata/Inconsolata-VariableFont_wdth\,wght.ttf') format('truetype');
 }
 @font-face {
+  /* Sans-serif */
   font-family: "Inter";
   src: url('../fonts/inter/Inter-VariableFont_slnt\,wght.ttf') format('truetype');
 }
 @font-face {
+  /* Serif */
   font-family: "Lora";
   src: url('../fonts/lora/Lora-VariableFont_wght.ttf') format('truetype');
 }
 :root {
   font-size: 20px;
   font-weight: 400;
+  --serif: "Lora";
+  --sans-serif: "Inter";
+  --mono: "Inconsolata";
   --black: #000000;
   --almost-black: #050505;
   --light-black: #1f1f1f;
@@ -50,9 +56,57 @@ p.medium {
 p.small {
   font-size: 0.7rem;
   line-height: 0.85rem;
+}
+ul {
+  list-style: none;
+  margin: 0;
+}
+li {
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  font-weight: 700;
+  display: inline;
+}
+#sans-serif-control {
+  font-family: var(--sans-serif);
+}
+#serif-control {
+  font-family: var(--serif);
+}
+#mono-control {
+  font-family: var(--mono);
+}
+.toggle {
+  width: 2rem;
+  height: 1rem;
+  background-color: var(--light-gray);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding-inline: 0.2rem;
+}
+.mode-selector:hover {
+  cursor: pointer;
+}
+.mode-selector:hover .toggle {
+  background-color: var(--active-lavender);
+}
+.mode-selector:hover .toggle-switch {
+  transform: translateX(125%);
+  transition: all 0.2s ease-in-out;
+}
+.mode-selector:hover #color-mode-moon path {
+  stroke: var(--active-lavender);
+}
+.toggle-switch {
+  width: 0.7rem;
+  height: 0.7rem;
+  background-color: var(--white);
+  border-radius: 50%;
+}
 
 /* Search bar styling */
-}.search-container {
+.search-container {
   width: 100%;
   position: relative;
 }
@@ -68,7 +122,7 @@ p.small {
   font-size: 1rem;
   font-weight: 700;
   position: relative;
-  z-index: 0;
+  z-index: 10;
 }
 #word-search::placeholder {
   opacity: 0.5;
@@ -97,19 +151,28 @@ p.small {
   z-index: 100;
 }
 
-
-
+/* Primary Content Styles */
 body {
-  font-family: "Lora", serif;
-  text-align: center;
-}
-main {
   width: 736px;
   margin-inline: auto;
+  border-left: 1px solid hotpink;
+  border-right: 1px solid hotpink;
 }
-h3 {
-  font-family: "Inter", sans-serif;
+header {
+  margin-top: 2.9rem;
 }
-p {
-  font-family: "Inconsolata", monospace;
+nav,
+.modes-container,
+.mode-selector {
+  display: flex;
+  align-items: center;
+}
+.modes-container {
+  margin-left: auto;
+}
+.mode-selector {
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-left: 1.3rem;
+  border-left: 1px solid var(--gray-white);
 }

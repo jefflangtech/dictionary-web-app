@@ -10,23 +10,34 @@
   <title>JeffLangTech | Dictionary web app</title>
 </head>
 <body>
-  <main>
-    <h1>keyboard</h1>
-    <h3>keyboard</h3>
-    <ul>
-      <li><p>(etc.) A set of keys used to operate a typewriter, computer, etc.</p></li>
-      <li><p>A component of many instruments</p></li>
-      <li><p>A device with keys</p></li>
-    </ul>
-    <div class="search-container">
+    <!-- <div class="search-container">
       <span id="input-wrapper">
         <label id="word-search-label" for="word-search">Search for a word</label>
         <input type="text" name="word-search" id="word-search" placeholder="Search for any word..." maxlength="50">
       </span>
-    </div>
+    </div> -->
+  <header>
+    <nav>
+      <img id="logo" src="resources/images/logo.svg" alt="Dictionary App Logo">
+      <div class="modes-container">
+        <ul id="typeface-selector">
+          <li id="sans-serif-control">Sans Serif</li>
+          <li id="serif-control">Serif</li>
+          <li id="mono-control">Mono</li>
+        </ul>
+        <div class="mode-selector">
+          <div class="toggle"><div class="toggle-switch"></div></div>
+          <svg id="color-mode-moon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"><path fill="none" stroke="#838383" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 10.449a10.544 10.544 0 0 0 19.993 4.686C11.544 15.135 6.858 10.448 6.858 1A10.545 10.545 0 0 0 1 10.449Z"/></svg>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
 
   </main>
+  <footer>
 
+  </footer>
 <script src="resources/js/index.js"></script>
 </body>
 </html>
