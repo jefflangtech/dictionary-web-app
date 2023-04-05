@@ -6,7 +6,7 @@ My notes while completing the [Dictionary web app challenge on Frontend Mentor](
 
 - [First Steps](#first-steps)
   - [The Overview](#the-overview)
-  - [Screenshot](#screenshot)
+  - [Things I Learned](#things-i-learned)
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
@@ -36,17 +36,16 @@ First thoughts:
   - API interface
   - Additional functionality like playing the pronunciation and looking up other provided words from the synonyms/antonyms list
 
-### Screenshot
+### Things I Learned
 
 ![](./screenshot.jpg)
 
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
+**SVGs**
+I've been aware, from a distance, the power of SVGs and for some reason I had previously incorporated them without any issues. This time around I couldn't change a color as expected. This is when I discovered that:
+- If one needs to access the internal elements of an SVG, even changing fill or stroke color, the SVG needs to be inline in the HTML, not embedded through an img tag.
+- Also I didn't know that one can just open the SVG file in VSCode or a text editor to get access to the internals
 
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it. 
 
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
 
 ### Links
 

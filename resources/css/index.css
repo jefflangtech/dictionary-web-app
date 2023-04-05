@@ -69,12 +69,15 @@ li {
 }
 #sans-serif-control {
   font-family: var(--sans-serif);
+  cursor: pointer;
 }
 #serif-control {
   font-family: var(--serif);
+  cursor: pointer;
 }
 #mono-control {
   font-family: var(--mono);
+  cursor: pointer;
 }
 .toggle {
   width: 2rem;
@@ -85,6 +88,36 @@ li {
   align-items: center;
   padding-inline: 0.2rem;
 }
+.font-selector {
+  position: relative;
+  height: 1.6rem;
+  padding-right: 1.3rem;
+  border-right: 1px solid var(--gray-white);
+}
+#font-select-label {
+  font-weight: 700;
+  display: inline;
+  font-family: var(--sans-serif);
+  cursor: pointer;
+}
+#font-select-caret {
+  margin-left: 0.9rem;
+}
+#typeface-selector {
+  position: absolute;
+  z-index: 100;
+  width: 9.15rem;
+  top: 2.35rem;
+  right: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  background-color: var(--white);
+  padding: 1.2rem;
+  border-radius: 1rem;
+  box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.1);
+  /* visibility: hidden; */
+}
 .mode-selector:hover {
   cursor: pointer;
 }
@@ -93,7 +126,6 @@ li {
 }
 .mode-selector:hover .toggle-switch {
   transform: translateX(125%);
-  transition: all 0.2s ease-in-out;
 }
 .mode-selector:hover #color-mode-moon path {
   stroke: var(--active-lavender);
@@ -103,6 +135,10 @@ li {
   height: 0.7rem;
   background-color: var(--white);
   border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+#color-mode-moon {
+  transition: all 0.2s ease-in-out;
 }
 
 /* Search bar styling */
@@ -169,10 +205,10 @@ nav,
 }
 .modes-container {
   margin-left: auto;
+  max-height: 1.8rem;
 }
 .mode-selector {
   justify-content: flex-end;
   gap: 1rem;
   padding-left: 1.3rem;
-  border-left: 1px solid var(--gray-white);
 }

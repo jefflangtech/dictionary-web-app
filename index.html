@@ -20,11 +20,16 @@
     <nav>
       <img id="logo" src="resources/images/logo.svg" alt="Dictionary App Logo">
       <div class="modes-container">
-        <ul id="typeface-selector">
-          <li id="sans-serif-control">Sans Serif</li>
-          <li id="serif-control">Serif</li>
-          <li id="mono-control">Mono</li>
-        </ul>
+        <div class="font-selector">
+          <p id="font-select-label" class="medium">Sans Serif
+            <svg id="font-select-caret" xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8"><path fill="none" stroke="#A445ED" stroke-width="1.5" d="m1 1 6 6 6-6"/></svg>
+          </p>
+          <ul id="typeface-selector">
+            <li id="sans-serif-control">Sans Serif</li>
+            <li id="serif-control">Serif</li>
+            <li id="mono-control">Mono</li>
+          </ul>
+        </div>
         <div class="mode-selector">
           <div class="toggle"><div class="toggle-switch"></div></div>
           <svg id="color-mode-moon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"><path fill="none" stroke="#838383" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M1 10.449a10.544 10.544 0 0 0 19.993 4.686C11.544 15.135 6.858 10.448 6.858 1A10.545 10.545 0 0 0 1 10.449Z"/></svg>
