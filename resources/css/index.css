@@ -35,6 +35,8 @@
   --white: #ffffff;
   --active-lavender: #A445ED;
   --alert-red: #ff5252;
+  --transition-delay: 1s;
+  --button-delay: 0.2s;
 }
 h1 {
   font-weight: 700;
@@ -116,7 +118,6 @@ li {
   padding: 1.2rem;
   border-radius: 1rem;
   box-shadow: 0px 5px 30px 0px rgba(0, 0, 0, 0.1);
-  /* visibility: hidden; */
 }
 .mode-selector:hover {
   cursor: pointer;
@@ -135,10 +136,10 @@ li {
   height: 0.7rem;
   background-color: var(--white);
   border-radius: 50%;
-  transition: all 0.2s ease-in-out;
+  transition: all var(--button-delay) ease-in-out;
 }
 #color-mode-moon {
-  transition: all 0.2s ease-in-out;
+  transition: all var(--button-delay) ease-in-out;
 }
 
 /* Search bar styling */
@@ -211,4 +212,8 @@ nav,
   justify-content: flex-end;
   gap: 1rem;
   padding-left: 1.3rem;
+}
+
+.hidden {
+  visibility: hidden;
 }
