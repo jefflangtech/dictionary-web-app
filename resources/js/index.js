@@ -9,7 +9,9 @@ const toggleHide = function(elem) {
 }
 
 const stopTimeout = function(elem) {
-  clearTimeout(elem.timeoutId);
+  if(elem.timeoutId) {
+    clearTimeout(elem.timeoutId);
+  }
 }
 
 const showFontMenu = function() {
@@ -29,16 +31,17 @@ const hideFontMenu = function() {
       }
     }
   }
-  console.dir(typefaceSelector);
+  if(typefaceSelector.timeoutId) {
+    clearTimeout(typefaceSelector.timeoutId);
+  }
   typefaceSelector.timeoutId = setTimeout(() => {
     toggleHide(typefaceSelector);
   }, parseFloat(transitionTiming) * 1000);
 }
 
-/* Need to clean up how the timeouts are organized. Right now if you leave the main menu clicker, it sets a timeout that is separate from the timeout when you leave the actual menu...or something like that. If the mouse leaves the menu clicker, after short delay, and doesn't enter the menu it should disappear. If it enters the menu the timeout should clear. If it leaves the menu, after a short delay and then enters the menu clicker, the timeout should clear. If it leaves either, after a short delay, it should trigger and hide the menu.
-*/
 fontSelector.addEventListener('click', showFontMenu);
-fontSelector.addEventListener('mouseout', hideFontMenu);
+fontSelector.addEventListener('mouseleave', hideFontMenu);
+typefaceSelector.addEventListener('mouseleave', hideFontMenu);
 fontSelector.addEventListener('mouseenter', () => {
   stopTimeout(typefaceSelector);
 });

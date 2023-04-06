@@ -35,7 +35,7 @@
   --white: #ffffff;
   --active-lavender: #A445ED;
   --alert-red: #ff5252;
-  --transition-delay: 1s;
+  --transition-delay: 0.3s;
   --button-delay: 0.2s;
 }
 h1 {

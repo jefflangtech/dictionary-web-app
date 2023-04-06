@@ -45,7 +45,8 @@ I've been aware, from a distance, the power of SVGs and for some reason I had pr
 - If one needs to access the internal elements of an SVG, even changing fill or stroke color, the SVG needs to be inline in the HTML, not embedded through an img tag.
 - Also I didn't know that one can just open the SVG file in VSCode or a text editor to get access to the internals
 
-
+**JS**
+Mouseout bubbles and mouseleave does not. I couldn't figure out why my disappearing menu was glitchy and then I thought...maybe it's a bubbling behavior, even though I was targeting the parent, not the children. Turns out it was definitely a bubbling behavior. By using "mouseleave" instead of "mouseout" I was able to control the behavior to just the parent and get the response I needed.
 
 ### Links
 
