@@ -48,3 +48,17 @@ fontSelector.addEventListener('mouseenter', () => {
 typefaceSelector.addEventListener('mouseenter', () => {
   stopTimeout(typefaceSelector);
 });
+
+// Testing Stuff
+const testFunc = function(elements) {
+  console.log(elements.length);
+};
+
+const test = document.getElementsByTagName('li');
+console.log(test);
+
+let elArray = [];
+for(let el of test) {
+  elArray.push(el);
+};
+console.log(elArray);

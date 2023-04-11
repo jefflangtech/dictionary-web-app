@@ -60,9 +60,6 @@ p.small {
   font-size: 0.7rem;
   line-height: 0.85rem;
 }
-ul {
-
-}
 li {
   padding-left: 0.5rem;
   margin-bottom: 0.65rem;
@@ -91,7 +88,6 @@ li::marker {
 #font-select-label {
   font-weight: 700;
   display: inline;
-  font-family: var(--sans-serif);
   cursor: pointer;
 }
 #font-select-caret {
@@ -186,7 +182,6 @@ nav,
   margin-bottom: 2.25rem;
   color: var(--dark-gray);
   font-size: 1rem;
-  font-family: var(--sans-serif);
   font-weight: 700;
   position: relative;
   z-index: 10;
@@ -223,7 +218,7 @@ nav,
 body {
   width: 736px;
   margin-inline: auto;
-  font-family: var(--sans-serif);
+  font-family: var(--mono);
 }
 header {
   margin-top: 2.9rem;
