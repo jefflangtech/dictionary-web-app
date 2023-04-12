@@ -15,13 +15,13 @@
       <img id="logo" src="resources/images/logo.svg" alt="Dictionary App Logo">
       <div class="modes-container">
         <div class="font-selector">
-          <p id="font-select-label" class="medium">Sans Serif
+          <p id="font-select-label" class="medium" data-font-primary="sans-serif">Sans Serif
             <svg id="font-select-caret" xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8"><path fill="none" stroke="#A445ED" stroke-width="1.5" d="m1 1 6 6 6-6"/></svg>
           </p>
           <ul id="typeface-selector" class="hidden">
-            <li id="sans-serif-control">Sans Serif</li>
-            <li id="serif-control">Serif</li>
-            <li id="mono-control">Mono</li>
+            <li id="sans-serif-control" data-font-control="sans-serif">Sans Serif</li>
+            <li id="serif-control" data-font-control="serif">Serif</li>
+            <li id="mono-control" data-font-control="mono">Mono</li>
           </ul>
         </div>
         <div class="mode-selector">
@@ -34,14 +34,14 @@
   <main>
     <div class="search-container">
       <span id="input-wrapper">
-        <label id="word-search-label" for="word-search">Search for a word</label>
+        <label id="word-search-label" for="word-search" data-font-primary="sans-serif">Search for a word</label>
         <input type="text" name="word-search" id="word-search" placeholder="Search for any word..." maxlength="50">
       </span>
     </div> 
     <section class="dictionary-entry">
       <div class="word-container">
         <div class="word-container-child">
-          <h1 id="word">keyboard</h1>
+          <h1 id="word" data-font-primary="sans-serif">keyboard</h1>
           <h2 id="phonetics">/ˈkiːbɔːd/</h2>
         </div>
         <div class="word-container-child">
@@ -49,29 +49,29 @@
         </div>
       </div>
       <div class="definition-container">
-        <h2 class="language-element">noun</h2>
-        <h3 class="part-of-speech">Meaning</h3>
+        <h2 class="language-element" data-font-secondary="sans-serif">noun</h2>
+        <h3 class="part-of-speech" data-font-primary="sans-serif">Meaning</h3>
         <ul>
-          <li><p class="medium">(etc.) A set of keys used to operate a typewriter, computer etc.</p></li>
-          <li><p class="medium">A component of many instruments including the piano, organ, and harpsichord consisting of usually black and white keys that cause different tones to be produced when struck.</p></li>
-          <li><p class="medium">A device with keys of a musical keyboard, used to control electronic sound-producing devices which may be built into or separate from the keyboard device.</p></li>
+          <li><p class="medium"  data-font-primary="sans-serif">(etc.) A set of keys used to operate a typewriter, computer etc.</p></li>
+          <li><p class="medium" data-font-primary="sans-serif">A component of many instruments including the piano, organ, and harpsichord consisting of usually black and white keys that cause different tones to be produced when struck.</p></li>
+          <li><p class="medium" data-font-primary="sans-serif">A device with keys of a musical keyboard, used to control electronic sound-producing devices which may be built into or separate from the keyboard device.</p></li>
         </ul>
-        <h3 class="part-of-speech syn-ant">Synonyms</h3>
-        <a href="#">Electronic keyboard</a>
+        <h3 class="part-of-speech syn-ant" data-font-primary="sans-serif">Synonyms</h3>
+        <a href="#" data-font-primary="sans-serif">Electronic keyboard</a>
       </div>
       <div class="definition-container">
-        <h2 class="language-element">verb</h2>
-        <h3 class="part-of-speech">Meaning</h3>
+        <h2 class="language-element" data-font-secondary="sans-serif">verb</h2>
+        <h3 class="part-of-speech" data-font-primary="sans-serif">Meaning</h3>
         <ul>
-          <li><p class="medium">To type on a computer keyboard.</p>
-          <p class="medium example">"Keyboarding is the part of this job I hate the most."</p></li>
+          <li><p class="medium" data-font-primary="sans-serif">To type on a computer keyboard.</p>
+          <p class="medium example" data-font-primary="sans-serif">"Keyboarding is the part of this job I hate the most."</p></li>
         </ul>
       </div>
     </section>
   </main>
   <footer>
-    <span class="link-wrapper"><p class="small">Source</p></span>
-    <p class="small"><span class="link-wrapper"><a class="footer-link" href="https://en.wiktionary.org/wiki/keyboard" target="_blank">https://en.wiktionary.org/wiki/keyboard</a></span>
+    <span class="link-wrapper"><p class="small" data-font-primary="sans-serif">Source</p></span>
+    <p class="small"><span class="link-wrapper"><a class="footer-link" href="https://en.wiktionary.org/wiki/keyboard" target="_blank" data-font-primary="sans-serif">https://en.wiktionary.org/wiki/keyboard</a></span>
     <span class="svg-wrapper">
       <svg class="new-window-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path fill="none" stroke="#838383" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.09 3.545H2.456A1.455 1.455 0 0 0 1 5v6.545A1.455 1.455 0 0 0 2.455 13H9a1.455 1.455 0 0 0 1.455-1.455V7.91m-5.091.727 7.272-7.272m0 0H9m3.636 0V5"/></svg>
     </span></p>

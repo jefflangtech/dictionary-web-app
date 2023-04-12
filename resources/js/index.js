@@ -1,5 +1,6 @@
 const fontSelector = document.getElementById('font-select-label');
 const typefaceSelector = document.getElementById('typeface-selector');
+const fontSelectLabel = document.getElementById('font-select-label');
 const root = document.documentElement;
 const rootStyle = getComputedStyle(root);
 const transitionTiming = rootStyle.getPropertyValue('--transition-delay').slice(0, -1);
@@ -50,15 +51,59 @@ typefaceSelector.addEventListener('mouseenter', () => {
 });
 
 // Testing Stuff
-const testFunc = function(elements) {
-  console.log(elements.length);
-};
+const themeControls = (function() {
 
-const test = document.getElementsByTagName('li');
-console.log(test);
+  let fontElements;
+  let fontControls;
+  let fontLabel;
+  let themeElements;
 
-let elArray = [];
-for(let el of test) {
-  elArray.push(el);
-};
-console.log(elArray);
+  function init() {
+    fontElements = document.querySelectorAll('[data-font-primary]');
+    fontControls = document.querySelectorAll('[data-font-control]');
+    fontLabel = document.getElementById('font-select-label').childNodes[0];
+  };
+
+  function getFontControls() {
+    return fontControls;
+  };
+
+  function reloadElements() {
+
+  };
+
+  function addElements() {
+
+  };
+
+  function removeElements() {
+
+  };
+
+  function changeStyle(font) {
+    fontElements.forEach(element => {
+      element.style.fontFamily = `var(--${font})`;
+    });
+    fontLabel.textContent = font;
+  };
+
+  return {
+    init,
+    getFontControls,
+    reloadElements,
+    addElements,
+    removeElements,
+    changeStyle
+  };
+
+})();
+
+themeControls.init();
+
+const fontCtrl = themeControls.getFontControls();
+
+fontCtrl.forEach(element => {
+  element.addEventListener('click', function() {
+    themeControls.changeStyle(element.dataset.fontControl);
+  })
+});
