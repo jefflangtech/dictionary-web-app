@@ -87,6 +87,8 @@ li::marker {
 }
 #font-select-label {
   font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.2rem;;
   display: inline;
   cursor: pointer;
 }
@@ -218,7 +220,7 @@ nav,
 body {
   width: 736px;
   margin-inline: auto;
-  font-family: var(--mono);
+  font-family: var(--sans-serif);
 }
 header {
   margin-top: 2.9rem;

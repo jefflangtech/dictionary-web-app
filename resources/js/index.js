@@ -59,8 +59,8 @@ const themeControls = (function() {
   let themeElements;
 
   function init() {
-    fontElements = document.querySelectorAll('[data-font-primary]');
-    fontControls = document.querySelectorAll('[data-font-control]');
+    fontElements = document.querySelectorAll('.font-primary');
+    fontControls = document.querySelectorAll('[data-font]');
     fontLabel = document.getElementById('font-select-label').childNodes[0];
   };
 
@@ -80,11 +80,12 @@ const themeControls = (function() {
 
   };
 
-  function changeStyle(font) {
+  function changeStyle(fontSelector) {
+    let font = fontSelector.dataset.font
     fontElements.forEach(element => {
-      element.style.fontFamily = `var(--${font})`;
+      element.style.fontFamily = `${font}`;
     });
-    fontLabel.textContent = font;
+    fontLabel.textContent = fontSelector.innerHTML;
   };
 
   return {
@@ -100,10 +101,8 @@ const themeControls = (function() {
 
 themeControls.init();
 
-const fontCtrl = themeControls.getFontControls();
-
-fontCtrl.forEach(element => {
+themeControls.getFontControls().forEach(element => {
   element.addEventListener('click', function() {
-    themeControls.changeStyle(element.dataset.fontControl);
-  })
+    themeControls.changeStyle(element);
+  });
 });
