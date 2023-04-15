@@ -1,52 +1,5 @@
-const fontSelector = document.getElementById('font-select-label');
-const typefaceSelector = document.getElementById('typeface-selector');
-const fontSelectLabel = document.getElementById('font-select-label');
-const root = document.documentElement;
-const rootStyle = getComputedStyle(root);
-const transitionTiming = rootStyle.getPropertyValue('--transition-delay').slice(0, -1);
-
-const stopTimeout = function(elem) {
-  if(elem.timeoutId) {
-    clearTimeout(elem.timeoutId);
-  }
-}
-
-// const showFontMenu = function() {
-//   for(let i = 0; i < typefaceSelector.classList.length; i++) {
-//     if(typefaceSelector.classList[i] === 'hidden') {
-//       themeControls.toggleHide(typefaceSelector);
-//       return;
-//     }
-//   }
-// }
-
-const hideFontMenu = function() {
-  if(typefaceSelector.classList.length > 0) {
-    for(let i = 0; i < typefaceSelector.classList.length; i++) {
-      if(typefaceSelector.classList[i] === 'hidden') {
-        return;
-      }
-    }
-  }
-  if(typefaceSelector.timeoutId) {
-    clearTimeout(typefaceSelector.timeoutId);
-  }
-  typefaceSelector.timeoutId = setTimeout(() => {
-    themeControls.toggleHide(typefaceSelector);
-  }, parseFloat(transitionTiming) * 1000);
-}
-
-// fontSelector.addEventListener('click', showFontMenu);
-fontSelector.addEventListener('mouseleave', hideFontMenu);
-typefaceSelector.addEventListener('mouseleave', hideFontMenu);
-fontSelector.addEventListener('mouseenter', () => {
-  stopTimeout(typefaceSelector);
-});
-typefaceSelector.addEventListener('mouseenter', () => {
-  stopTimeout(typefaceSelector);
-});
-
-// Testing Stuff
+// themeControl initializes all the data and functions necessary to operate
+// the theme and font changing controls
 const themeControls = (function() {
 
   let fontElements;
@@ -54,6 +7,10 @@ const themeControls = (function() {
   let fontLabel;
   let dropDownMenus = [];
   let themeElements;
+
+  // Capture any necessary variables declared in CSS :root
+  const rootStyle = getComputedStyle(document.documentElement);
+  const transitionTiming = rootStyle.getPropertyValue('--transition-delay').slice(0, -1);
 
   function init() {
     fontElements = document.querySelectorAll('.font-primary');
@@ -86,7 +43,7 @@ const themeControls = (function() {
     // -----------------------------------------------------
     
     // Initialize event listeners
-    getFontControls().forEach(element => {
+    fontControls.forEach(element => {
       element.addEventListener('click', function() {
         changeStyle(element);
       });
@@ -96,6 +53,19 @@ const themeControls = (function() {
       menuContainer.element.addEventListener('click', function() {
         showFontMenu(menuContainer.contents);
       });
+      menuContainer.element.addEventListener('mouseleave', function() {
+        hideFontMenu(menuContainer.contents);
+      });
+      menuContainer.contents.addEventListener('mouseleave', function() {
+        hideFontMenu(menuContainer.contents);
+      });
+      menuContainer.element.addEventListener('mouseenter', () => {
+        stopTimeout(menuContainer.contents);
+      });
+      menuContainer.contents.addEventListener('mouseenter', () => {
+        stopTimeout(menuContainer.contents);
+      });
+
     });
 
   };
@@ -111,6 +81,12 @@ const themeControls = (function() {
     return this.name;
   };
 
+  function stopTimeout(elem) {
+    if(elem.timeoutId) {
+      clearTimeout(elem.timeoutId);
+    }
+  };
+
   function toggleHide(elem) {
     elem.classList.toggle('hidden');
   };
@@ -122,6 +98,22 @@ const themeControls = (function() {
         return;
       }
     }
+  };
+
+  function hideFontMenu(contents) {
+    if(contents.classList.length > 0) {
+      for(let i = 0; i < contents.classList.length; i++) {
+        if(contents.classList[i] === 'hidden') {
+          return;
+        }
+      }
+    }
+    if(contents.timeoutId) {
+      clearTimeout(contents.timeoutId);
+    }
+    contents.timeoutId = setTimeout(() => {
+      toggleHide(contents);
+    }, parseFloat(transitionTiming) * 1000);
   };
 
   function getFontControls() {
@@ -153,8 +145,7 @@ const themeControls = (function() {
   return {
     reloadElements,
     addElements,
-    removeElements,
-    toggleHide
+    removeElements
   };
 
 })();
