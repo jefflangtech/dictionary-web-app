@@ -5,24 +5,20 @@ const root = document.documentElement;
 const rootStyle = getComputedStyle(root);
 const transitionTiming = rootStyle.getPropertyValue('--transition-delay').slice(0, -1);
 
-const toggleHide = function(elem) {
-  elem.classList.toggle('hidden');
-}
-
 const stopTimeout = function(elem) {
   if(elem.timeoutId) {
     clearTimeout(elem.timeoutId);
   }
 }
 
-const showFontMenu = function() {
-  for(let i = 0; i < typefaceSelector.classList.length; i++) {
-    if(typefaceSelector.classList[i] === 'hidden') {
-      toggleHide(typefaceSelector);
-      return;
-    }
-  }
-}
+// const showFontMenu = function() {
+//   for(let i = 0; i < typefaceSelector.classList.length; i++) {
+//     if(typefaceSelector.classList[i] === 'hidden') {
+//       themeControls.toggleHide(typefaceSelector);
+//       return;
+//     }
+//   }
+// }
 
 const hideFontMenu = function() {
   if(typefaceSelector.classList.length > 0) {
@@ -36,11 +32,11 @@ const hideFontMenu = function() {
     clearTimeout(typefaceSelector.timeoutId);
   }
   typefaceSelector.timeoutId = setTimeout(() => {
-    toggleHide(typefaceSelector);
+    themeControls.toggleHide(typefaceSelector);
   }, parseFloat(transitionTiming) * 1000);
 }
 
-fontSelector.addEventListener('click', showFontMenu);
+// fontSelector.addEventListener('click', showFontMenu);
 fontSelector.addEventListener('mouseleave', hideFontMenu);
 typefaceSelector.addEventListener('mouseleave', hideFontMenu);
 fontSelector.addEventListener('mouseenter', () => {
@@ -65,6 +61,7 @@ const themeControls = (function() {
     fontLabel = document.getElementById('font-select-label').childNodes[0];
 
     // Locate all menu containers
+    // -----------------------------------------------------
     let menus = document.querySelectorAll('.dropdown-menu');
     menus.forEach(element => {
       let menuHeader;
@@ -86,7 +83,21 @@ const themeControls = (function() {
       // Create a new menu object and push it on to the list of page menus
       dropDownMenus.push(new Menu(element, menuHeader, menuContents));
     });
-    console.dir(dropDownMenus[0]);
+    // -----------------------------------------------------
+    
+    // Initialize event listeners
+    getFontControls().forEach(element => {
+      element.addEventListener('click', function() {
+        changeStyle(element);
+      });
+    });
+
+    dropDownMenus.forEach(menuContainer => {
+      menuContainer.element.addEventListener('click', function() {
+        showFontMenu(menuContainer.contents);
+      });
+    });
+
   };
 
   // Create a menu object for each dropdown menu element
@@ -98,6 +109,19 @@ const themeControls = (function() {
 
   Menu.prototype.testFunc = function() {
     return this.name;
+  };
+
+  function toggleHide(elem) {
+    elem.classList.toggle('hidden');
+  };
+
+  function showFontMenu(contents) {
+    for(let i = 0; i < contents.classList.length; i++) {
+      if(contents.classList[i] === 'hidden') {
+        toggleHide(contents);
+        return;
+      }
+    }
   };
 
   function getFontControls() {
@@ -124,21 +148,13 @@ const themeControls = (function() {
     fontLabel.textContent = fontSelector.innerHTML;
   };
 
+  init();
+
   return {
-    init,
-    getFontControls,
     reloadElements,
     addElements,
     removeElements,
-    changeStyle
+    toggleHide
   };
 
 })();
-
-themeControls.init();
-
-themeControls.getFontControls().forEach(element => {
-  element.addEventListener('click', function() {
-    themeControls.changeStyle(element);
-  });
-});
