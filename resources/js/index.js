@@ -2,10 +2,16 @@
 // the theme and font changing controls
 const themeControls = (function() {
 
+  // Elements required for user selected fonts
   let primaryFontElements;
   let fontControls;
   let fontLabel;
+
+  // Elements required for menu controls
   let dropDownMenus = [];
+
+  // Elements required for light-dark mode
+  let toggleSwitches = [];
   let themeElements;
 
   // Capture any necessary variables declared in CSS :root
@@ -15,7 +21,6 @@ const themeControls = (function() {
   function init() {
     primaryFontElements = document.querySelectorAll('.font-primary');
     secondaryFontElements = document.querySelectorAll('.font-secondary');
-    console.dir(secondaryFontElements);
     fontControls = document.querySelectorAll('[data-font]');
     fontLabel = document.getElementById('font-select-label').childNodes[0];
 
@@ -33,22 +38,49 @@ const themeControls = (function() {
         for(let j = 0; j < childClasses.length; j++) {
           if(childClasses[j] === "dropdown-menu-header") {
             menuHeader = childElements[i];
-          }
+          };
           if(childClasses[j] === "dropdown-menu-contents") {
             menuContents = childElements[i];
           };
-        }
-      }
+        };
+      };
       // Create a new menu object and push it on to the list of page menus
       dropDownMenus.push(new Menu(element, menuHeader, menuContents));
     });
     // -----------------------------------------------------
     
+    // Locate all toggle switches
+    // -----------------------------------------------------
+    let toggles = document.querySelectorAll('.toggle');
+    toggles.forEach(element => {
+      let toggleButton;
+      let childElements = element.children;
+      let toggleContainer = element.parentElement;
+      let svgElement = element.nextElementSibling;
+      for(let i = 0; i < childElements.length; i++) {
+        let childClasses = childElements[i].classList;
+        for(let j = 0; j < childClasses.length; j++) {
+          if(childClasses[j] === "toggle-switch") {
+            toggleButton = childElements[i];
+          };
+        };
+      };
+
+      // Create a new toggleSwitch object and push it on to the list
+      toggleSwitches.push(new ToggleControl(toggleContainer, element, toggleButton, svgElement));
+    });    
+
     // Initialize event listeners
     fontControls.forEach(element => {
       element.addEventListener('click', function() {
         changeStyle(element);
       });
+    });
+
+    toggleSwitches.forEach(item => {
+      item.parent.addEventListener('click', function() {
+        item.switchToggle();
+      })
     });
 
     dropDownMenus.forEach(menuContainer => {
@@ -70,6 +102,8 @@ const themeControls = (function() {
 
     });
 
+
+  // End of init() call  
   };
 
   // Create a menu object for each dropdown menu element
@@ -81,6 +115,26 @@ const themeControls = (function() {
 
   Menu.prototype.testFunc = function() {
     return this.name;
+  };
+
+  function ToggleControl(parent, element, toggleButton, svgElement) {
+    this.parent = parent;
+    this.element = element;
+    this.toggleButton = toggleButton;
+    this.svg = svgElement;
+  };
+
+  ToggleControl.prototype.switchToggle = function() {
+    let style = this.toggleButton.style.transform;
+    if(!style) {
+      this.element.style.backgroundColor = 'var(--active-lavender)';
+      this.svg.childNodes[0].style.stroke = 'var(--active-lavender)';
+      this.toggleButton.style.transform = 'translateX(125%)';
+    } else {
+      this.element.style.backgroundColor = '';
+      this.svg.childNodes[0].style.stroke = '';
+      this.toggleButton.style.transform = '';
+    }
   };
 
   function stopTimeout(elem) {

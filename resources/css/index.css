@@ -129,9 +129,6 @@ li::marker {
 .mode-selector:hover .toggle {
   background-color: var(--active-lavender);
 }
-/* .mode-selector:hover .toggle-switch {
-  transform: translateX(125%);
-} */
 .mode-selector:hover #color-mode-moon path {
   stroke: var(--active-lavender);
 }
