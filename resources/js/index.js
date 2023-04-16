@@ -2,7 +2,7 @@
 // the theme and font changing controls
 const themeControls = (function() {
 
-  let fontElements;
+  let primaryFontElements;
   let fontControls;
   let fontLabel;
   let dropDownMenus = [];
@@ -13,7 +13,9 @@ const themeControls = (function() {
   const transitionTiming = rootStyle.getPropertyValue('--transition-delay').slice(0, -1);
 
   function init() {
-    fontElements = document.querySelectorAll('.font-primary');
+    primaryFontElements = document.querySelectorAll('.font-primary');
+    secondaryFontElements = document.querySelectorAll('.font-secondary');
+    console.dir(secondaryFontElements);
     fontControls = document.querySelectorAll('[data-font]');
     fontLabel = document.getElementById('font-select-label').childNodes[0];
 
@@ -116,10 +118,6 @@ const themeControls = (function() {
     }, parseFloat(transitionTiming) * 1000);
   };
 
-  function getFontControls() {
-    return fontControls;
-  };
-
   function reloadElements() {
 
   };
@@ -134,9 +132,34 @@ const themeControls = (function() {
 
   function changeStyle(fontSelector) {
     let font = fontSelector.dataset.font
-    fontElements.forEach(element => {
+    primaryFontElements.forEach(element => {
       element.style.fontFamily = `${font}`;
     });
+    
+    // Specific style changes for the language elements based on font selected
+    switch(font) {
+      case 'var(--sans-serif)':
+        secondaryFontElements.forEach(element => {
+          element.style.fontWeight = '700';
+          element.style.transform = 'translateY(-50%) skew(-10deg)';
+        });
+        break;
+      case 'var(--serif)':
+        secondaryFontElements.forEach(element => {
+          element.style.fontWeight = '400';
+          element.style.transform = 'translateY(-50%) skew(0deg)';
+        });
+        break;
+      case 'var(--mono)':
+        secondaryFontElements.forEach(element => {
+          element.style.fontWeight = '700';
+          element.style.transform = 'translateY(-50%) skew(0deg)';
+        });
+        break;
+      default:
+        console.log('Error selected font for secondary font elements');
+    };
+
     fontLabel.textContent = fontSelector.innerHTML;
   };
 

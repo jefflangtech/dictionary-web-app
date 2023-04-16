@@ -120,15 +120,18 @@ li::marker {
   display: inline;
   margin-bottom: unset;
 }
+.dropdown-menu-contents li:hover {
+  color: var(--active-lavender);
+}
 .mode-selector:hover {
   cursor: pointer;
 }
 .mode-selector:hover .toggle {
   background-color: var(--active-lavender);
 }
-.mode-selector:hover .toggle-switch {
+/* .mode-selector:hover .toggle-switch {
   transform: translateX(125%);
-}
+} */
 .mode-selector:hover #color-mode-moon path {
   stroke: var(--active-lavender);
 }
@@ -183,6 +186,7 @@ nav,
   padding-block: 1rem;
   margin-bottom: 2.25rem;
   color: var(--dark-gray);
+  caret-color: var(--active-lavender);
   font-size: 1rem;
   font-weight: 700;
   position: relative;
@@ -221,6 +225,8 @@ body {
   width: 736px;
   margin-inline: auto;
   font-family: var(--sans-serif);
+  /* background-color: var(--almost-black);
+  color: var(--white); */
 }
 header {
   margin-top: 2.9rem;
@@ -237,6 +243,8 @@ header {
 }
 #phonetics {
   font-weight: 400;
+  font-size: 1.2rem;
+  line-height: 1.45rem;
   color: var(--active-lavender);
 }
 #play-button {
@@ -256,6 +264,7 @@ header {
 }
 .language-element {
   position: absolute;
+  font-weight: 700;
   background-color: var(--white);
   padding-right: 1rem;
   top: 0;
@@ -310,7 +319,6 @@ footer p {
 }
 .footer-link {
   text-decoration: none;
-  color: var(--light-black);
   margin-left: 1rem;
   margin-right: 0.5rem;
 }
@@ -447,6 +455,22 @@ footer p {
     margin-left: 0;
     width: calc(100% - 0.5rem);
   }
+}
+
+.body-color {
+  color: var(--white);
+  /* color: var(--almost-black); */
+}
+
+body,
+.dropdown-menu-contents,
+.language-element {
+  background-color: var(--almost-black);
+  color: var(--white);
+}
+
+.dropdown-menu-contents {
+  box-shadow: 0px 5px 30px 0px rgb(164, 69, 237);
 }
 
 .hidden {
