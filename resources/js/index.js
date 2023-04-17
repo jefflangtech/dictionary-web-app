@@ -11,8 +11,22 @@ const themeControls = (function() {
   let dropDownMenus = [];
 
   // Elements required for light-dark mode
+  let colorThemeActive = false;
   let toggleSwitches = [];
-  let themeElements;
+  let themeElements = {};
+
+  const colorThemes = {
+    light: {
+      backgroundColor: 'var(--white)',
+      color: 'var(--black)',
+      boxShadow: '0px 5px 30px 0px rgba(0, 0, 0, 0.1)'
+    },
+    dark: {
+      backgroundColor: 'var(--almost-black)',
+      color: 'var(--white)',
+      boxShadow: '0px 5px 30px 0px rgb(164, 69, 237)'
+    }
+  };
 
   // Capture any necessary variables declared in CSS :root
   const rootStyle = getComputedStyle(document.documentElement);
@@ -69,6 +83,20 @@ const themeControls = (function() {
       // Create a new toggleSwitch object and push it on to the list
       toggleSwitches.push(new ToggleControl(toggleContainer, element, toggleButton, svgElement));
     });    
+    // -----------------------------------------------------
+
+    // Locate all color theme elements
+    // -----------------------------------------------------
+    themeElements.background = [];
+    themeElements.boxShadow = [];
+
+    document.querySelectorAll('.bg-theme-color').forEach(element => {
+      themeElements.background.push(element);
+    });
+    document.querySelectorAll('.box-shadow').forEach(element => {
+      themeElements.boxShadow.push(element);
+    });
+    // -----------------------------------------------------
 
     // Initialize event listeners
     fontControls.forEach(element => {
@@ -102,7 +130,7 @@ const themeControls = (function() {
 
     });
 
-
+  loadThemeState();
   // End of init() call  
   };
 
@@ -127,14 +155,17 @@ const themeControls = (function() {
   ToggleControl.prototype.switchToggle = function() {
     let style = this.toggleButton.style.transform;
     if(!style) {
+      colorThemeActive = true;
       this.element.style.backgroundColor = 'var(--active-lavender)';
       this.svg.childNodes[0].style.stroke = 'var(--active-lavender)';
       this.toggleButton.style.transform = 'translateX(125%)';
     } else {
+      colorThemeActive = false;
       this.element.style.backgroundColor = '';
       this.svg.childNodes[0].style.stroke = '';
       this.toggleButton.style.transform = '';
     }
+    loadThemeState();
   };
 
   function stopTimeout(elem) {
@@ -172,7 +203,21 @@ const themeControls = (function() {
     }, parseFloat(transitionTiming) * 1000);
   };
 
-  function reloadElements() {
+  function loadThemeState() {
+    let colorTheme;
+    if(!colorThemeActive) {
+      colorTheme = colorThemes.light;
+    } else {
+      colorTheme = colorThemes.dark;
+    }
+
+    themeElements.background.forEach(element => {
+      element.style.backgroundColor = colorTheme.backgroundColor;
+      element.style.color = colorTheme.color;
+    });
+    themeElements.boxShadow.forEach(element => {
+      element.style.boxShadow = colorTheme.boxShadow;
+    });
 
   };
 
@@ -220,7 +265,7 @@ const themeControls = (function() {
   init();
 
   return {
-    reloadElements,
+    loadThemeState,
     addElements,
     removeElements
   };
