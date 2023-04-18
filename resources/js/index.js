@@ -248,6 +248,33 @@ const themeControls = (function() {
     fontLabel.textContent = fontSelector.innerHTML;
   };
 
+  // Initialize the state and functionality of the UI
   init();
 
 })();
+
+const loadDefinition = async function(url) {
+
+  try {
+    const response = await(fetch(url));
+    const data = await response.json();
+    console.dir(data);
+  }
+  catch (error) {
+    console.log("Error encountered: ", error);
+  }
+
+};
+
+const searchForm = document.getElementById('search-form');
+const searchInput = document.getElementById('word-search');
+const url = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
+searchForm.addEventListener('submit', function(event) {
+  // This prevents the page from submitting and reloading
+  event.preventDefault();
+  // This will concatenate the API url with the searched word
+  let searchUrl = `${url}${searchInput.value}`;
+  loadDefinition(searchUrl);
+  // This clears the search input
+  searchInput.value = "";
+});
