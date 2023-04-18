@@ -15,19 +15,6 @@ const themeControls = (function() {
   let toggleSwitches = [];
   let themeElements = {};
 
-  const colorThemes = {
-    light: {
-      backgroundColor: 'var(--white)',
-      color: 'var(--black)',
-      boxShadow: '0px 5px 30px 0px rgba(0, 0, 0, 0.1)'
-    },
-    dark: {
-      backgroundColor: 'var(--almost-black)',
-      color: 'var(--white)',
-      boxShadow: '0px 5px 30px 0px rgb(164, 69, 237)'
-    }
-  };
-
   // Capture any necessary variables declared in CSS :root
   const rootStyle = getComputedStyle(document.documentElement);
   const transitionTiming = rootStyle.getPropertyValue('--transition-delay').slice(0, -1);
@@ -89,12 +76,16 @@ const themeControls = (function() {
     // -----------------------------------------------------
     themeElements.background = [];
     themeElements.boxShadow = [];
+    themeElements.textInput = [];
 
     document.querySelectorAll('.bg-theme-color').forEach(element => {
       themeElements.background.push(element);
     });
     document.querySelectorAll('.box-shadow').forEach(element => {
       themeElements.boxShadow.push(element);
+    });
+    document.querySelectorAll('input[type="text"]').forEach(element => {
+      themeElements.textInput.push(element);
     });
     // -----------------------------------------------------
 
@@ -121,10 +112,10 @@ const themeControls = (function() {
       menuContainer.contents.addEventListener('mouseleave', function() {
         hideFontMenu(menuContainer.contents);
       });
-      menuContainer.element.addEventListener('mouseenter', () => {
+      menuContainer.element.addEventListener('mouseenter', function() {
         stopTimeout(menuContainer.contents);
       });
-      menuContainer.contents.addEventListener('mouseenter', () => {
+      menuContainer.contents.addEventListener('mouseenter', function() {
         stopTimeout(menuContainer.contents);
       });
 
@@ -139,10 +130,6 @@ const themeControls = (function() {
     this.element = element;
     this.header = header;
     this.contents = contents;
-  };
-
-  Menu.prototype.testFunc = function() {
-    return this.name;
   };
 
   function ToggleControl(parent, element, toggleButton, svgElement) {
@@ -204,28 +191,27 @@ const themeControls = (function() {
   };
 
   function loadThemeState() {
-    let colorTheme;
-    if(!colorThemeActive) {
-      colorTheme = colorThemes.light;
+    if(colorThemeActive) {
+      themeElements.background.forEach(element => {
+        element.classList.add('bg-dark');
+      });
+      themeElements.boxShadow.forEach(element => {
+        element.classList.add('box-shadow-dark');
+      });
+      themeElements.textInput.forEach(element => {
+        element.classList.add('text-input-dark');
+      });
     } else {
-      colorTheme = colorThemes.dark;
+      themeElements.background.forEach(element => {
+        element.classList.remove('bg-dark');
+      });
+      themeElements.boxShadow.forEach(element => {
+        element.classList.remove('box-shadow-dark');
+      });
+      themeElements.textInput.forEach(element => {
+        element.classList.remove('text-input-dark');
+      });
     }
-
-    themeElements.background.forEach(element => {
-      element.style.backgroundColor = colorTheme.backgroundColor;
-      element.style.color = colorTheme.color;
-    });
-    themeElements.boxShadow.forEach(element => {
-      element.style.boxShadow = colorTheme.boxShadow;
-    });
-
-  };
-
-  function addElements() {
-
-  };
-
-  function removeElements() {
 
   };
 
@@ -263,11 +249,5 @@ const themeControls = (function() {
   };
 
   init();
-
-  return {
-    loadThemeState,
-    addElements,
-    removeElements
-  };
 
 })();
