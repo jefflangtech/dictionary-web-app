@@ -4,6 +4,7 @@ const themeControls = (function() {
 
   // Elements required for user selected fonts
   let primaryFontElements;
+  let secondaryFontElements;
   let fontControls;
   let fontLabel;
 
@@ -20,10 +21,8 @@ const themeControls = (function() {
   const transitionTiming = rootStyle.getPropertyValue('--transition-delay').slice(0, -1);
 
   function init() {
-    primaryFontElements = document.querySelectorAll('.font-primary');
-    secondaryFontElements = document.querySelectorAll('.font-secondary');
-    fontControls = document.querySelectorAll('[data-font]');
-    fontLabel = document.getElementById('font-select-label').childNodes[0];
+
+    loadFontElements();
 
     // Locate all menu containers
     // -----------------------------------------------------
@@ -125,6 +124,7 @@ const themeControls = (function() {
   // End of init() call  
   };
 
+
   // Create a menu object for each dropdown menu element
   function Menu(element, header, contents) {
     this.element = element;
@@ -153,6 +153,13 @@ const themeControls = (function() {
       this.toggleButton.style.transform = '';
     }
     loadThemeState();
+  };
+
+  function loadFontElements() {
+    primaryFontElements = document.querySelectorAll('.font-primary');
+    secondaryFontElements = document.querySelectorAll('.font-secondary');
+    fontControls = document.querySelectorAll('[data-font]');
+    fontLabel = document.getElementById('font-select-label').childNodes[0];
   };
 
   function stopTimeout(elem) {
@@ -251,30 +258,96 @@ const themeControls = (function() {
   // Initialize the state and functionality of the UI
   init();
 
+  return {
+    loadFontElements
+  };
+
 })();
 
-const loadDefinition = async function(url) {
+// End of IIFE function
+//-------------------------------------------------------------------
+//-------------------------------------------------------------------
+//-------------------------------------------------------------------
 
-  try {
-    const response = await(fetch(url));
-    const data = await response.json();
-    console.dir(data);
+// Begin module for fetching & caching API data
+const cachedApi = (() => {
+
+  const dataCache = [];
+
+  async function fetchData(url) {
+
+    try {
+      const response = await(fetch(url))
+      if(!response.ok) {
+        if(response.status === 404) {
+          console.log('404: data resource not found');
+          return;
+        } else {
+          throw new Error('There was an error with the network resource');
+        }
+      }
+      const data = await response.json();
+      if(!data) {
+        throw new Error('Data not available');
+      }
+      pushToCache(data[0]);
+      console.dir(data[0]);
+      console.log("Word search success!");
+    }
+    catch (error) {
+      console.log("Error encountered: ", error);
+    }
+
+  };
+
+  function pushToCache(item) {
+    dataCache.push(item);
+    if(dataCache.length > 19) {
+      dataCache.shift();
+    }
+  };
+
+  function searchCache(term) {
+    for(let item of dataCache) {
+      if(item.word === term) {
+        return item;
+      }
+    }
+    return null;
   }
-  catch (error) {
-    console.log("Error encountered: ", error);
-  }
 
-};
+  return {
+    fetchData,
+    searchCache
+  };
 
+})();
+
+// Global variables required for search
 const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('word-search');
 const url = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
+
 searchForm.addEventListener('submit', function(event) {
   // This prevents the page from submitting and reloading
   event.preventDefault();
+
+  // Check the dataCache first
+  let cacheResult = cachedApi.searchCache(searchInput.value);
+  if(cacheResult) {
+    console.dir(cacheResult);
+  } else {
   // This will concatenate the API url with the searched word
   let searchUrl = `${url}${searchInput.value}`;
-  loadDefinition(searchUrl);
+  cachedApi.fetchData(searchUrl);
+  }
+
   // This clears the search input
   searchInput.value = "";
 });
+
+const el = document.createElement('p');
+el.setAttribute('class', 'font-primary');
+el.textContent = 'This is a test paragraph';
+document.body.appendChild(el);
+themeControls.loadFontElements();
