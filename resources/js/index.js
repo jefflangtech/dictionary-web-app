@@ -264,7 +264,7 @@ const themeControls = (function() {
 
 })();
 
-// End of IIFE function
+// End of Revealing Module pattern
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
@@ -346,8 +346,35 @@ searchForm.addEventListener('submit', function(event) {
   searchInput.value = "";
 });
 
-const el = document.createElement('p');
-el.setAttribute('class', 'font-primary');
-el.textContent = 'This is a test paragraph';
-document.body.appendChild(el);
 themeControls.loadFontElements();
+
+
+// Not sure how best to implement the html creation. On the fly seems the
+// right method but it also seems quite tedious. I think it would be good
+// to do this the manual way at first but if the app was hosted I would 
+// use an engine
+const createWordContainer = function() {
+
+  const dictionaryEntry = document.querySelector('.dictionary-entry');
+
+  dictionaryEntry.innerHTML = '<div class="word-container"><div class="word-container-child"><h1 id="word" class="font-primary">keyboard</h1><p id="phonetics"></p></div><div class="word-container-child"><svg id="play-button" xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 75 75"><g fill="#A445ED" fill-rule="evenodd"><circle cx="37.5" cy="37.5" r="37.5" opacity=".25"/><path d="M29 27v21l21-10.5z"/></g></svg></div></div>';
+
+  // const wordContainerEl = document.createElement('div');
+  // wordContainerEl.setAttribute('class', 'word-container');
+  // dictionaryEntry.appendChild(wordContainerEl);
+
+  // let subEl = document.createElement('div');
+  // subEl.setAttribute('class', 'word-container-child');
+  // wordContainerEl.appendChild(subEl);
+  // subEl = document.createElement('div');
+  // subEl.setAttribute('class', 'word-container-child');
+  // wordContainerEl.appendChild(subEl);
+
+  // let h1El = document.createElement('h1');
+  // h1El.setAttribute('id', 'word');
+  // h1El.setAttribute('class', 'font-primary');
+  // wordContainerEl.children[0].append(h1El);
+
+};
+
+createWordContainer();
