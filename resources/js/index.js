@@ -264,40 +264,106 @@ const themeControls = (function() {
 
 })();
 
-// End of Revealing Module pattern
-//-------------------------------------------------------------------
-//-------------------------------------------------------------------
-//-------------------------------------------------------------------
+// Begin module for creating HTML layouts & content
+const contentCreate = (() => {
+
+  const dictionaryEntry = document.querySelector('.dictionary-entry');
+
+  // Not sure how best to implement the html creation. On the fly seems the
+  // right method but it also seems quite tedious. I think it would be good
+  // to do this the manual way at first but if the app was hosted I would 
+  // use an engine
+
+  function wordContainer() {
+  
+    dictionaryEntry.innerHTML = '<div class="word-container"><div class="word-container-child"><h1 id="word" class="font-primary"></h1><p id="phonetics"></p></div><div class="word-container-child"><svg id="play-button" xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 75 75"><g fill="#A445ED" fill-rule="evenodd"><circle cx="37.5" cy="37.5" r="37.5" opacity=".25"/><path d="M29 27v21l21-10.5z"/></g></svg></div></div>';
+  
+    // const wordContainerEl = document.createElement('div');
+    // wordContainerEl.setAttribute('class', 'word-container');
+    // dictionaryEntry.appendChild(wordContainerEl);
+  
+    // let subEl = document.createElement('div');
+    // subEl.setAttribute('class', 'word-container-child');
+    // wordContainerEl.appendChild(subEl);
+    // subEl = document.createElement('div');
+    // subEl.setAttribute('class', 'word-container-child');
+    // wordContainerEl.appendChild(subEl);
+  
+    // let h1El = document.createElement('h1');
+    // h1El.setAttribute('id', 'word');
+    // h1El.setAttribute('class', 'font-primary');
+    // wordContainerEl.children[0].append(h1El);
+  
+  };
+
+  return {
+    wordContainer
+  };
+
+})();
+
+// Global variables required for search
+const searchObj = {
+  form: document.getElementById('search-form'),
+  input: document.getElementById('word-search'),
+  url: 'https://api.dictionaryapi.dev/api/v2/entries/en/'
+};
 
 // Begin module for fetching & caching API data
-const cachedApi = (() => {
+const cachedSearch = (function(searchObj) {
+
+  form = searchObj.form;
+  input = searchObj.input;
+  url = searchObj.url;
 
   const dataCache = [];
 
-  async function fetchData(url) {
+  function search() {
+  
+    // Check the dataCache first
+    let cacheResult = searchCache(input.value);
+    if(cacheResult) {
+      console.dir(cacheResult);
+    } else {
+      // This will concatenate the API url with the searched word
+      let searchUrl = `${url}${input.value}`;
+      fetchData(searchUrl);
+    }
+  
+    // This clears the search input
+    input.value = "";
+  };
+
+  async function fetchData(fetchUrl) {
 
     try {
-      const response = await(fetch(url))
-      if(!response.ok) {
+      const response = await(fetch(fetchUrl));
+      if(response.ok) {
+        const data = await response.json();
+        if(!data) {
+          throw new Error('Data not available');
+        }
+        pushToCache(data[0]);
+        console.log("Word search success!");
+        console.dir(data[0]);
+        return data[0];
+      } else {
         if(response.status === 404) {
+          const data = await response.json();
+          if(!data) {
+            throw new Error('Data not available');
+          }
           console.log('404: data resource not found');
-          return;
+          console.dir(data);
+          return data;
         } else {
           throw new Error('There was an error with the network resource');
         }
       }
-      const data = await response.json();
-      if(!data) {
-        throw new Error('Data not available');
-      }
-      pushToCache(data[0]);
-      console.dir(data[0]);
-      console.log("Word search success!");
     }
     catch (error) {
       console.log("Error encountered: ", error);
     }
-
   };
 
   function pushToCache(item) {
@@ -317,64 +383,18 @@ const cachedApi = (() => {
   }
 
   return {
+    search,
     fetchData,
     searchCache
   };
 
-})();
+})(searchObj);
 
-// Global variables required for search
-const searchForm = document.getElementById('search-form');
-const searchInput = document.getElementById('word-search');
-const url = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
-
-searchForm.addEventListener('submit', function(event) {
+searchObj.form.addEventListener('submit', function(event) {
   // This prevents the page from submitting and reloading
   event.preventDefault();
-
-  // Check the dataCache first
-  let cacheResult = cachedApi.searchCache(searchInput.value);
-  if(cacheResult) {
-    console.dir(cacheResult);
-  } else {
-  // This will concatenate the API url with the searched word
-  let searchUrl = `${url}${searchInput.value}`;
-  cachedApi.fetchData(searchUrl);
-  }
-
-  // This clears the search input
-  searchInput.value = "";
+  cachedSearch.search();
 });
 
+contentCreate.wordContainer();
 themeControls.loadFontElements();
-
-
-// Not sure how best to implement the html creation. On the fly seems the
-// right method but it also seems quite tedious. I think it would be good
-// to do this the manual way at first but if the app was hosted I would 
-// use an engine
-const createWordContainer = function() {
-
-  const dictionaryEntry = document.querySelector('.dictionary-entry');
-
-  dictionaryEntry.innerHTML = '<div class="word-container"><div class="word-container-child"><h1 id="word" class="font-primary">keyboard</h1><p id="phonetics"></p></div><div class="word-container-child"><svg id="play-button" xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 75 75"><g fill="#A445ED" fill-rule="evenodd"><circle cx="37.5" cy="37.5" r="37.5" opacity=".25"/><path d="M29 27v21l21-10.5z"/></g></svg></div></div>';
-
-  // const wordContainerEl = document.createElement('div');
-  // wordContainerEl.setAttribute('class', 'word-container');
-  // dictionaryEntry.appendChild(wordContainerEl);
-
-  // let subEl = document.createElement('div');
-  // subEl.setAttribute('class', 'word-container-child');
-  // wordContainerEl.appendChild(subEl);
-  // subEl = document.createElement('div');
-  // subEl.setAttribute('class', 'word-container-child');
-  // wordContainerEl.appendChild(subEl);
-
-  // let h1El = document.createElement('h1');
-  // h1El.setAttribute('id', 'word');
-  // h1El.setAttribute('class', 'font-primary');
-  // wordContainerEl.children[0].append(h1El);
-
-};
-
-createWordContainer();
