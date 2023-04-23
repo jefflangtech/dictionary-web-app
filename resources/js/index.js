@@ -269,10 +269,29 @@ const contentCreate = (() => {
 
   const dictionaryEntry = document.querySelector('.dictionary-entry');
 
-  // Not sure how best to implement the html creation. On the fly seems the
-  // right method but it also seems quite tedious. I think it would be good
-  // to do this the manual way at first but if the app was hosted I would 
-  // use an engine
+  function parse(data) {
+
+    if(!data.success) {
+      errorContent(data.data);
+    } else {
+      console.dir(data.data);
+    }
+
+  };
+
+  function errorContent(data) {
+    dictionaryEntry.innerHTML = '<div id="error-container" class="font-primary"><p id="emoji">&#x1F615;</p><h3 id="error-title"></h3><p id="error-message" class="medium"></p></div>';
+
+    const errorTitle = document.getElementById('error-title');
+    const errorMessage = document.getElementById('error-message');
+
+    errorTitle.innerHTML = data.title;
+    errorMessage.innerHTML = `${data.message} ${data.resolution}`;
+
+    console.dir(data);
+    themeControls.loadFontElements();
+
+  };
 
   function wordContainer() {
   
@@ -297,7 +316,7 @@ const contentCreate = (() => {
   };
 
   return {
-    wordContainer
+    parse
   };
 
 })();
@@ -319,19 +338,21 @@ const cachedSearch = (function(searchObj) {
   const dataCache = [];
 
   function search() {
+
+    let word = input.value;
+    input.value = "";
   
     // Check the dataCache first
-    let cacheResult = searchCache(input.value);
+    let cacheResult = searchCache(word);
+    
     if(cacheResult) {
       console.dir(cacheResult);
+      return { success: true, data: cacheResult };
     } else {
       // This will concatenate the API url with the searched word
-      let searchUrl = `${url}${input.value}`;
-      fetchData(searchUrl);
+      let searchUrl = `${url}${word}`;
+      return fetchData(searchUrl);
     }
-  
-    // This clears the search input
-    input.value = "";
   };
 
   async function fetchData(fetchUrl) {
@@ -344,9 +365,7 @@ const cachedSearch = (function(searchObj) {
           throw new Error('Data not available');
         }
         pushToCache(data[0]);
-        console.log("Word search success!");
-        console.dir(data[0]);
-        return data[0];
+        return { success: true, data: data[0] };
       } else {
         if(response.status === 404) {
           const data = await response.json();
@@ -354,8 +373,7 @@ const cachedSearch = (function(searchObj) {
             throw new Error('Data not available');
           }
           console.log('404: data resource not found');
-          console.dir(data);
-          return data;
+          return { success: false, data: data };
         } else {
           throw new Error('There was an error with the network resource');
         }
@@ -390,11 +408,9 @@ const cachedSearch = (function(searchObj) {
 
 })(searchObj);
 
-searchObj.form.addEventListener('submit', function(event) {
+searchObj.form.addEventListener('submit', async function(event) {
   // This prevents the page from submitting and reloading
   event.preventDefault();
-  cachedSearch.search();
+  results = await cachedSearch.search();
+  contentCreate.parse(results);
 });
-
-contentCreate.wordContainer();
-themeControls.loadFontElements();

@@ -233,6 +233,25 @@ header {
   margin-top: 2.9rem;
   margin-bottom: 2.6rem;
 }
+#error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 4.35rem;
+}
+#emoji {
+  font-size: 2.15rem;
+  line-height: 2.15rem;
+  margin-bottom: 2.2rem;
+}
+#error-title {
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+}
+#error-message {
+  color: var(--light-gray);
+}
 .word-container {
   display: flex;
   justify-content: space-between;
