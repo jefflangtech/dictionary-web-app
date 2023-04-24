@@ -480,6 +480,9 @@ footer p {
 .hidden {
   visibility: hidden;
 }
+audio {
+  display: none;
+}
 
 .bg-dark {
   background-color: var(--almost-black);

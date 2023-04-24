@@ -271,15 +271,22 @@ const contentCreate = (() => {
 
   function parse(data) {
 
+    console.dir(data.data);
+
+    if(dictionaryEntry.innerHTML) {
+      dictionaryEntry.innerHTML = '';
+    }
+
     if(!data.success) {
       errorContent(data.data);
     } else {
-      console.dir(data.data);
+      wordContainer(data.data);
     }
 
   };
 
   function errorContent(data) {
+
     dictionaryEntry.innerHTML = '<div id="error-container" class="font-primary"><p id="emoji">&#x1F615;</p><h3 id="error-title"></h3><p id="error-message" class="medium"></p></div>';
 
     const errorTitle = document.getElementById('error-title');
@@ -288,14 +295,50 @@ const contentCreate = (() => {
     errorTitle.innerHTML = data.title;
     errorMessage.innerHTML = `${data.message} ${data.resolution}`;
 
-    console.dir(data);
     themeControls.loadFontElements();
 
   };
 
-  function wordContainer() {
-  
-    dictionaryEntry.innerHTML = '<div class="word-container"><div class="word-container-child"><h1 id="word" class="font-primary"></h1><p id="phonetics"></p></div><div class="word-container-child"><svg id="play-button" xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 75 75"><g fill="#A445ED" fill-rule="evenodd"><circle cx="37.5" cy="37.5" r="37.5" opacity=".25"/><path d="M29 27v21l21-10.5z"/></g></svg></div></div>';
+  function wordContainer(data) {
+
+    dictionaryEntry.innerHTML = '<div class="word-container"><div class="word-container-child"><h1 id="word" class="font-primary"></h1><p id="phonetics"></p></div><div class="word-container-child"><svg id="play-button" xmlns="http://www.w3.org/2000/svg" width="75" height="75" viewBox="0 0 75 75"><g fill="#A445ED" fill-rule="evenodd"><circle cx="37.5" cy="37.5" r="37.5" opacity=".25"/><path d="M29 27v21l21-10.5z"/></g></svg></div><audio id="audio-player"><source id="audio-source" src="" type="audio/mpeg">Your browser does not support the audio element.</audio></div>';
+
+    const wordEl = document.getElementById('word');
+    const phoneticsEl = document.getElementById('phonetics');
+    const audio = document.getElementById('audio-source');
+    const playButton = document.getElementById('play-button');
+    let audioBoolean = false;
+
+    wordEl.innerHTML = data.word;
+    
+    if(data.phonetic) {
+      phoneticsEl.innerHTML = data.phonetic;
+    }
+    for(let item of data.phonetics) {
+      if(!phoneticsEl.innerHTML && item.text) {
+        phoneticsEl.innerHTML = item.text;
+      }
+      if(!audioBoolean && item.audio) {
+        audio.setAttribute('src', item.audio);
+        audioBoolean = true;
+
+        playButton.addEventListener('click', function() {
+          const audioPlayer = document.getElementById('audio-player');
+    
+          if(audioPlayer.paused) {
+            audioPlayer.play();
+          } else {
+            audioPlayer.pause();
+          }
+    
+        });
+      }
+    }
+    if(!audioBoolean) {
+      playButton.classList.add('hidden');
+    } else {
+      playButton.classList.remove('hidden');
+    }
   
     // const wordContainerEl = document.createElement('div');
     // wordContainerEl.setAttribute('class', 'word-container');
@@ -313,6 +356,8 @@ const contentCreate = (() => {
     // h1El.setAttribute('class', 'font-primary');
     // wordContainerEl.children[0].append(h1El);
   
+    themeControls.loadFontElements();
+
   };
 
   return {
@@ -346,10 +391,9 @@ const cachedSearch = (function(searchObj) {
     let cacheResult = searchCache(word);
     
     if(cacheResult) {
-      console.dir(cacheResult);
       return { success: true, data: cacheResult };
     } else {
-      // This will concatenate the API url with the searched word
+      // Concatenate the API url with the searched word
       let searchUrl = `${url}${word}`;
       return fetchData(searchUrl);
     }
