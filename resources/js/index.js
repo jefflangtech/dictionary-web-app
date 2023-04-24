@@ -281,6 +281,7 @@ const contentCreate = (() => {
       errorContent(data.data);
     } else {
       wordContainer(data.data);
+      definitionContainers(data.data);
     }
 
   };
@@ -298,6 +299,37 @@ const contentCreate = (() => {
     themeControls.loadFontElements();
 
   };
+
+  function definitionContainers(data) {
+
+    for(let meanings of data.meanings) {
+
+      let defContainerEl = document.createElement('div');
+      defContainerEl.setAttribute('class', 'definition-container');
+      defContainerEl.innerHTML = `<h2 class="language-element font-primary font-secondary bg-theme-color">${meanings.partOfSpeech}</h2><h3 class="part-of-speech font-primary">Meaning</h3><ul></ul>`;
+
+      for(let def of meanings.definitions) {
+        let defEl = document.createElement('li');
+        defEl.innerHTML = `<p class="medium font-primary">${def.definition}</p>`;
+
+        if(def.example) {
+          let exEl = document.createElement('p');
+          exEl.setAttribute('class', 'medium example font-primary');
+          exEl.innerHTML = `"${def.example}"`;
+          defEl.appendChild(exEl);
+        }
+
+        defContainerEl.children[2].appendChild(defEl);
+
+      }
+
+      dictionaryEntry.appendChild(defContainerEl);
+
+    }
+
+    themeControls.loadFontElements();
+
+  }
 
   function wordContainer(data) {
 
@@ -339,22 +371,6 @@ const contentCreate = (() => {
     } else {
       playButton.classList.remove('hidden');
     }
-  
-    // const wordContainerEl = document.createElement('div');
-    // wordContainerEl.setAttribute('class', 'word-container');
-    // dictionaryEntry.appendChild(wordContainerEl);
-  
-    // let subEl = document.createElement('div');
-    // subEl.setAttribute('class', 'word-container-child');
-    // wordContainerEl.appendChild(subEl);
-    // subEl = document.createElement('div');
-    // subEl.setAttribute('class', 'word-container-child');
-    // wordContainerEl.appendChild(subEl);
-  
-    // let h1El = document.createElement('h1');
-    // h1El.setAttribute('id', 'word');
-    // h1El.setAttribute('class', 'font-primary');
-    // wordContainerEl.children[0].append(h1El);
   
     themeControls.loadFontElements();
 
