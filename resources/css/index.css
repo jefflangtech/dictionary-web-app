@@ -224,13 +224,13 @@ body {
   width: 736px;
   margin-inline: auto;
   font-family: var(--sans-serif);
+  padding-top: 2.9rem;
 }
 .bg-theme-color {
   background-color: var(--white);
   color: var(--black);
 }
 header {
-  margin-top: 2.9rem;
   margin-bottom: 2.6rem;
 }
 #error-container {
@@ -313,7 +313,7 @@ header {
   margin-block: 0.65rem;
   color: var(--light-gray);
 }
-footer {
+footer.footer-style {
   padding-top: 1rem;
   padding-bottom: 6rem;
   border-top: 1px solid var(--gray-white);
@@ -395,8 +395,8 @@ footer p {
   header, main, footer {
     margin-inline: 1.2rem;
   }
-  header {
-    margin-block: 1.2rem;
+  body {
+    padding-block: 1.2rem;
   }
   #logo {
     max-height: 1.6rem;

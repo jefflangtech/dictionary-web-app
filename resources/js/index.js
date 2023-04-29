@@ -268,6 +268,7 @@ const themeControls = (function() {
 const contentCreate = (() => {
 
   const dictionaryEntry = document.querySelector('.dictionary-entry');
+  const footer = document.querySelector('footer');
 
   function parse(data) {
 
@@ -275,6 +276,10 @@ const contentCreate = (() => {
 
     if(dictionaryEntry.innerHTML) {
       dictionaryEntry.innerHTML = '';
+      if(footer.innerHTML) {
+        footer.innerHTML = '';
+        footer.classList.remove('footer-style');
+      }
     }
 
     if(!data.success) {
@@ -282,6 +287,8 @@ const contentCreate = (() => {
     } else {
       wordContainer(data.data);
       definitionContainers(data.data);
+      footerContent(data.data);
+      themeControls.loadFontElements();
     }
 
   };
@@ -295,8 +302,6 @@ const contentCreate = (() => {
 
     errorTitle.innerHTML = data.title;
     errorMessage.innerHTML = `${data.message} ${data.resolution}`;
-
-    themeControls.loadFontElements();
 
   };
 
@@ -326,8 +331,6 @@ const contentCreate = (() => {
       dictionaryEntry.appendChild(defContainerEl);
 
     }
-
-    themeControls.loadFontElements();
 
   }
 
@@ -371,8 +374,18 @@ const contentCreate = (() => {
     } else {
       playButton.classList.remove('hidden');
     }
-  
-    themeControls.loadFontElements();
+
+  };
+
+  function footerContent(data) {
+    
+    footer.classList.add('footer-style');
+    footer.innerHTML = '<span class="link-wrapper"><p class="small font-primary">Source</p></span><p class="small"><span class="link-wrapper"><a id="source-url" class="footer-link font-primary bg-theme-color" href="" target="_blank"></a></span><span class="svg-wrapper"><svg class="new-window-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path fill="none" stroke="#838383" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.09 3.545H2.456A1.455 1.455 0 0 0 1 5v6.545A1.455 1.455 0 0 0 2.455 13H9a1.455 1.455 0 0 0 1.455-1.455V7.91m-5.091.727 7.272-7.272m0 0H9m3.636 0V5"/></svg></span></p>';
+
+    const source = document.getElementById('source-url');
+    
+    source.setAttribute('href', data.sourceUrls[0]);
+    source.innerHTML = data.sourceUrls[0];
 
   };
 
