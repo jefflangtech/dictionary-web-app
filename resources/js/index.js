@@ -72,21 +72,7 @@ const themeControls = (function() {
     // -----------------------------------------------------
 
     // Locate all color theme elements
-    // -----------------------------------------------------
-    themeElements.background = [];
-    themeElements.boxShadow = [];
-    themeElements.textInput = [];
-
-    document.querySelectorAll('.bg-theme-color').forEach(element => {
-      themeElements.background.push(element);
-    });
-    document.querySelectorAll('.box-shadow').forEach(element => {
-      themeElements.boxShadow.push(element);
-    });
-    document.querySelectorAll('input[type="text"]').forEach(element => {
-      themeElements.textInput.push(element);
-    });
-    // -----------------------------------------------------
+    loadThemeElements();
 
     // Initialize event listeners
     fontControls.forEach(element => {
@@ -120,8 +106,9 @@ const themeControls = (function() {
 
     });
 
-  loadThemeState();
-  // End of init() call  
+    loadThemeState();
+    // End of init() call
+
   };
 
 
@@ -160,6 +147,23 @@ const themeControls = (function() {
     secondaryFontElements = document.querySelectorAll('.font-secondary');
     fontControls = document.querySelectorAll('[data-font]');
     fontLabel = document.getElementById('font-select-label').childNodes[0];
+  };
+
+  function loadThemeElements() {
+    themeElements.background = [];
+    themeElements.boxShadow = [];
+    themeElements.textInput = [];
+
+    document.querySelectorAll('.bg-theme-color').forEach(element => {
+      themeElements.background.push(element);
+    });
+    document.querySelectorAll('.box-shadow').forEach(element => {
+      themeElements.boxShadow.push(element);
+    });
+    document.querySelectorAll('input[type="text"]').forEach(element => {
+      themeElements.textInput.push(element);
+    });
+
   };
 
   function stopTimeout(elem) {
@@ -259,7 +263,9 @@ const themeControls = (function() {
   init();
 
   return {
-    loadFontElements
+    loadFontElements,
+    loadThemeElements,
+    loadThemeState
   };
 
 })();
@@ -289,6 +295,8 @@ const contentCreate = (() => {
       definitionContainers(data.data);
       footerContent(data.data);
       themeControls.loadFontElements();
+      themeControls.loadThemeElements();
+      themeControls.loadThemeState();
     }
 
   };
