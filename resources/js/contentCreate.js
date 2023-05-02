@@ -25,6 +25,7 @@ const contentCreate = (() => {
       definitionContainers(data.data);
       footerContent(data.data);
       themeControls.loadFontElements();
+      themeControls.loadFontState();
       themeControls.loadThemeElements();
       themeControls.loadThemeState();
     }

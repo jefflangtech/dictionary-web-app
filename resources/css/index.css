@@ -196,6 +196,9 @@ nav,
   position: relative;
   z-index: 10;
 }
+#word-search.error {
+  border: 1px solid var(--alert-red);
+}
 #word-search::placeholder {
   opacity: 0.5;
 }
@@ -205,6 +208,18 @@ nav,
   top: 1.25rem;
   left: 1.25rem;
   opacity: 0;
+}
+#input-wrapper::before {
+  content: "";
+  color: var(--alert-red);
+  font-family: var(--sans-serif);
+  font-size: 1rem;
+  line-height: 1.2rem;
+  position: absolute;
+  bottom: 0.5rem;
+}
+#input-wrapper.error::before {
+  content: "Whoops, can't be empty...";
 }
 #input-wrapper::after {
   content: '';

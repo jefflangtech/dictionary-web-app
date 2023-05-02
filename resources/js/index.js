@@ -90,6 +90,15 @@ const cachedSearch = (function(searchObj) {
 searchObj.form.addEventListener('submit', async function(event) {
   // This prevents the page from submitting and reloading
   event.preventDefault();
-  let results = await cachedSearch.search();
-  contentCreate.parse(results);
+
+  const searchParent = searchObj.input.parentElement;
+  if(searchObj.input.value === '') {
+    searchParent.classList.add('error');
+    searchObj.input.classList.add('error');
+  } else {
+    searchParent.classList.remove('error');
+    searchObj.input.classList.remove('error');
+    let results = await cachedSearch.search();
+    contentCreate.parse(results);
+  }
 });

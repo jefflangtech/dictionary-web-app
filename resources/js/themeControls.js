@@ -259,11 +259,23 @@ const themeControls = (function() {
     fontLabel.textContent = fontSelector.innerHTML;
   };
 
+  function loadFontState() {
+    const fontSelect = document.getElementById('font-select-label');
+    const fontText = fontSelect.innerText.trim();
+    fontControls.forEach(element => {
+      if(element.innerHTML === fontText) {
+        changeStyle(element);
+        return;
+      }
+    });
+  };
+
   // Initialize the state and functionality of the UI
   init();
 
   return {
     loadFontElements,
+    loadFontState,
     loadThemeElements,
     loadThemeState
   };
