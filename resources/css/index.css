@@ -314,6 +314,12 @@ header {
   display: inline;
   margin-right: 1.1rem;
 }
+.syn-ant-flex {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
 .definition-container a {
   color: var(--active-lavender);
   font-weight: 700;

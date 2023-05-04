@@ -64,11 +64,40 @@ const contentCreate = (() => {
         }
 
         defContainerEl.children[2].appendChild(defEl);
-
       }
 
-      dictionaryEntry.appendChild(defContainerEl);
+      if(meanings.synonyms.length > 0) {
+        let synContainerEl = document.createElement('div');
+        synContainerEl.setAttribute('class', 'syn-ant-flex');
+        synContainerEl.innerHTML = '<h3 class="part-of-speech font-primary syn-ant">Synonyms</h3>';
 
+        for(let syn of meanings.synonyms) {
+          let linkEl = document.createElement('a');
+          linkEl.setAttribute('class', 'font-primary');
+          linkEl.innerText = syn;
+          synContainerEl.appendChild(linkEl);
+        }
+
+        defContainerEl.appendChild(synContainerEl);
+      }
+
+      if(meanings.antonyms.length > 0) {
+        let antContainerEl = document.createElement('div');
+        antContainerEl.setAttribute('class', 'syn-ant-flex');
+        antContainerEl.innerHTML = '<h3 class="part-of-speech font-primary syn-ant">Antonyms</h3>';
+
+        for(let ant of meanings.antonyms) {
+          let linkEl = document.createElement('a');
+          linkEl.setAttribute('class', 'font-primary');
+          linkEl.innerText = ant;
+          antContainerEl.appendChild(linkEl);
+        }
+
+        defContainerEl.appendChild(antContainerEl);
+      }
+
+      // Append the new container to the primary dictionary entry container
+      dictionaryEntry.appendChild(defContainerEl);
     }
 
   }
