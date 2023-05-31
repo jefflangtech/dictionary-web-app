@@ -106,8 +106,17 @@ const themeControls = (function() {
 
     });
 
+    /* Test for default color theme and set it in the app. The idea of a list of many potential toggles doesn't work with this and that would need to be re-written anyways
+    */
+    let colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if(colorMode) {
+      // Hard-coded to the one toggle switch on this page
+      toggleSwitches[0].switchToggle();
+    }
+
     loadThemeState();
-    // End of init() call
+    // End of init() function
 
   };
 
