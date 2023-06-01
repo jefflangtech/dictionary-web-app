@@ -99,6 +99,22 @@ searchObj.form.addEventListener('submit', async function(event) {
     searchParent.classList.remove('error');
     searchObj.input.classList.remove('error');
     let results = await cachedSearch.search();
-    contentCreate.parse(results);
+
+    // Call to create the fetched content
+    let success = contentCreate.parse(results);
   }
+});
+
+// Delegated event listener for synonyms & antonyms clicks
+document.body.addEventListener('click', async function(event) {
+
+  if(event.target.classList.contains('syn-ant')) {
+    
+    searchObj.input.value = event.target.innerText.trim();
+    let results = await cachedSearch.search();
+
+    // Call to create the fetched content
+    let success = contentCreate.parse(results);
+  }
+
 });

@@ -8,7 +8,7 @@ const contentCreate = (() => {
 
   function parse(data) {
 
-    console.dir(data.data);
+    // console.dir(data.data);
 
     if(dictionaryEntry.innerHTML) {
       dictionaryEntry.innerHTML = '';
@@ -69,11 +69,12 @@ const contentCreate = (() => {
       if(meanings.synonyms.length > 0) {
         let synContainerEl = document.createElement('div');
         synContainerEl.setAttribute('class', 'syn-ant-flex');
-        synContainerEl.innerHTML = '<h3 class="part-of-speech font-primary syn-ant">Synonyms</h3>';
+        synContainerEl.innerHTML = '<h3 class="part-of-speech font-primary syn-ant-header">Synonyms</h3>';
 
         for(let syn of meanings.synonyms) {
           let linkEl = document.createElement('a');
-          linkEl.setAttribute('class', 'font-primary');
+          linkEl.setAttribute('class', 'font-primary syn-ant');
+          linkEl.setAttribute('href', '#');
           linkEl.innerText = syn;
           synContainerEl.appendChild(linkEl);
         }
@@ -84,11 +85,12 @@ const contentCreate = (() => {
       if(meanings.antonyms.length > 0) {
         let antContainerEl = document.createElement('div');
         antContainerEl.setAttribute('class', 'syn-ant-flex');
-        antContainerEl.innerHTML = '<h3 class="part-of-speech font-primary syn-ant">Antonyms</h3>';
+        antContainerEl.innerHTML = '<h3 class="part-of-speech font-primary syn-ant-header">Antonyms</h3>';
 
         for(let ant of meanings.antonyms) {
           let linkEl = document.createElement('a');
-          linkEl.setAttribute('class', 'font-primary');
+          linkEl.setAttribute('class', 'font-primary syn-ant');
+          linkEl.setAttribute('href', '#');
           linkEl.innerText = ant;
           antContainerEl.appendChild(linkEl);
         }
