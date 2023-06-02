@@ -8,6 +8,13 @@ const searchObj = {
   url: 'https://api.dictionaryapi.dev/api/v2/entries/en/'
 };
 
+// Working with browser history
+const updateHistory = function(searchTerm) {
+
+  history.pushState({ term: searchTerm }, `Searching ${searchTerm}`, `/?=${searchTerm}`);
+
+};
+
 // Begin module for fetching & caching API data
 const cachedSearch = (function(searchObj) {
 
@@ -20,6 +27,7 @@ const cachedSearch = (function(searchObj) {
   function search() {
 
     let word = input.value;
+    // history.pushState({ term: word }, `Searching ${word}`, `/?=${word}`);
     input.value = "";
   
     // Check the dataCache first
@@ -96,12 +104,15 @@ searchObj.form.addEventListener('submit', async function(event) {
     searchParent.classList.add('error');
     searchObj.input.classList.add('error');
   } else {
+    let word = searchObj.input.value;
     searchParent.classList.remove('error');
     searchObj.input.classList.remove('error');
     let results = await cachedSearch.search();
 
     // Call to create the fetched content
     let success = contentCreate.parse(results);
+    updateHistory(word);
+
   }
 });
 
@@ -109,12 +120,18 @@ searchObj.form.addEventListener('submit', async function(event) {
 document.body.addEventListener('click', async function(event) {
 
   if(event.target.classList.contains('syn-ant')) {
+
+    event.preventDefault();
+    window.scrollTo(0, 0);
     
     searchObj.input.value = event.target.innerText.trim();
+    let word = searchObj.input.value;
     let results = await cachedSearch.search();
 
     // Call to create the fetched content
     let success = contentCreate.parse(results);
+    updateHistory(word);
+
   }
 
 });
