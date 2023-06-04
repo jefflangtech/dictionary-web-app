@@ -11,7 +11,7 @@ const searchObj = {
 // Working with browser history
 const updateHistory = function(searchTerm) {
 
-  history.pushState({ term: searchTerm }, `Searching ${searchTerm}`, `/?=${searchTerm}`);
+  history.pushState({ term: searchTerm }, `Searching ${searchTerm}`, `/?search=${searchTerm}`);
 
 };
 
@@ -27,7 +27,6 @@ const cachedSearch = (function(searchObj) {
   function search() {
 
     let word = input.value;
-    // history.pushState({ term: word }, `Searching ${word}`, `/?=${word}`);
     input.value = "";
   
     // Check the dataCache first
@@ -96,7 +95,7 @@ const cachedSearch = (function(searchObj) {
 })(searchObj);
 
 searchObj.form.addEventListener('submit', async function(event) {
-  // This prevents the page from submitting and reloading
+  
   event.preventDefault();
 
   const searchParent = searchObj.input.parentElement;
@@ -132,6 +131,25 @@ document.body.addEventListener('click', async function(event) {
     let success = contentCreate.parse(results);
     updateHistory(word);
 
+  }
+
+});
+
+// Updates the page content when the user clicks forward or back in the browser
+window.addEventListener('popstate', async function(event) {
+
+  let query = new URLSearchParams(window.location.search);
+  
+  if(query.size > 0) {
+    searchObj.input.value = query.get('search');
+    let word = searchObj.input.value;
+    let results = await cachedSearch.search();
+  
+    // Call to create the fetched content
+    let success = contentCreate.parse(results);
+  } else {
+    // Refreshes the page, resets to index, if there is no history/query
+    history.go();
   }
 
 });
