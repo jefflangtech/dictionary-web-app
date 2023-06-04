@@ -11,7 +11,7 @@ const searchObj = {
 // Working with browser history
 const updateHistory = function(searchTerm) {
 
-  history.pushState({ term: searchTerm }, `Searching ${searchTerm}`, `/?search=${searchTerm}`);
+  history.pushState({ term: searchTerm }, `Searching ${searchTerm}`, `${window.location.pathname}?search=${searchTerm}`);
 
 };
 
