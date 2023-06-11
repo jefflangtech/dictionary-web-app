@@ -15,6 +15,9 @@ const updateHistory = function(searchTerm) {
 
 };
 
+const homeLink = document.getElementById('home-link');
+homeLink.setAttribute('href', '/');
+
 // Begin module for fetching & caching API data
 const cachedSearch = (function(searchObj) {
 
