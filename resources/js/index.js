@@ -143,10 +143,8 @@ document.body.addEventListener('click', async function(event) {
 // Updates the page content when the user clicks forward or back in the browser
 window.addEventListener('popstate', async function(event) {
 
-  let query = new URLSearchParams(window.location.search);
-  
-  if(query.size > 0) {
-    searchObj.input.value = query.get('search');
+  if(event.state && event.state.term) {
+    searchObj.input.value = event.state.term;
     let word = searchObj.input.value;
     let results = await cachedSearch.search();
   
@@ -154,7 +152,7 @@ window.addEventListener('popstate', async function(event) {
     let success = contentCreate.parse(results);
   } else {
     // Refreshes the page, resets to index, if there is no history/query
-    history.go();
+    location.reload();
   }
 
 });
