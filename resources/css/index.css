@@ -442,6 +442,10 @@ footer p {
     font-size: 0.8rem;
     line-height: 1rem;
   }
+  #input-wrapper::after {
+    width: 48px;
+    height: 48px;
+  }
   #search-form::after {
     width: 48px;
     height: 48px;
