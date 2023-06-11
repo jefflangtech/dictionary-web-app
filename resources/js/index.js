@@ -115,6 +115,7 @@ searchObj.form.addEventListener('submit', async function(event) {
     // Call to create the fetched content
     let success = contentCreate.parse(results);
     updateHistory(word);
+    searchObj.input.blur();
 
   }
 });
