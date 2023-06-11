@@ -77,6 +77,7 @@ const themeControls = (function() {
     // Initialize event listeners
     fontControls.forEach(element => {
       element.addEventListener('click', function() {
+        hideFontMenu(element.parentElement);
         changeStyle(element);
       });
     });

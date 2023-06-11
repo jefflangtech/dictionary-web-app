@@ -15,8 +15,8 @@ const updateHistory = function(searchTerm) {
 
 };
 
+// Sets the right href whether the link is local or on the web
 const homeLink = document.getElementById('home-link');
-// console.log(window.location.pathname);
 homeLink.setAttribute('href', window.location.pathname);
 
 // Begin module for fetching & caching API data
@@ -125,7 +125,6 @@ document.body.addEventListener('click', async function(event) {
   if(event.target.classList.contains('syn-ant')) {
 
     event.preventDefault();
-    window.scrollTo(0, 0);
     
     searchObj.input.value = event.target.innerText.trim();
     let word = searchObj.input.value;
@@ -134,6 +133,7 @@ document.body.addEventListener('click', async function(event) {
     // Call to create the fetched content
     let success = contentCreate.parse(results);
     updateHistory(word);
+    window.scrollTo(0, 0);
 
   }
 
